@@ -1,4 +1,4 @@
 /node_modules
 /output.json
-/test
+/test/testing-maps/*
 /yarn.lock
