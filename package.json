@@ -1,0 +1,15 @@
+{
+  "name": "rhythia-star-calculator",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "tsx watch test/test.ts"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@types/node": "^22.5.1",
+    "math.js": "^1.1.46",
+    "mathjs": "^13.1.1",
+    "tsx": "^4.19.0"
+  }
+}
