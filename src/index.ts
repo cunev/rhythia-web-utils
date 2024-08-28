@@ -26,6 +26,17 @@ export type Rating = {
   difficulty: RhythiaDifficulty;
 };
 
+const difficultyMaxes: Record<DifficultySpikes, number> = {
+  EASY_JUMP: 10,
+  EASY_STREAM: 1,
+  HARD_JUMP: 1000,
+  HARD_STREAM: 100,
+  INSANE_JUMP: 10000,
+  INSANE_STREAM: 1000,
+  JUMP: 100,
+  STREAM: 10,
+};
+
 const MAX_DISTANCE = 2.8284271247461903;
 const FUCKED_UP_DIFFICULTY = 22300000;
 
@@ -55,16 +66,6 @@ export function rateMap(map: SSPMParsedMap) {
     STREAM: 0,
   };
 
-  let difficultyMaxes: Record<DifficultySpikes, number> = {
-    EASY_JUMP: 10,
-    EASY_STREAM: 1,
-    HARD_JUMP: 1000,
-    HARD_STREAM: 100,
-    INSANE_JUMP: 10000,
-    INSANE_STREAM: 1000,
-    JUMP: 100,
-    STREAM: 10,
-  };
   for (let index = 0; index < notes.length - 1; index++) {
     const note = notes[index];
     const nextNote = notes[index + 1];
@@ -81,47 +82,57 @@ export function rateMap(map: SSPMParsedMap) {
     const distanceDifficulty = clamp(noteDistance / MAX_DISTANCE, 0, 1);
     const timeDifficulty = 1 - (clamp(deltaTime, 10, 1000) - 10) / 990;
 
-    let verdict: DifficultySpikes | undefined;
-
-    // Jump Category
-    if (distanceDifficulty >= 0.8 && timeDifficulty > 0.3) {
-      verdict = DifficultySpikes.EASY_JUMP;
-    }
-
-    if (distanceDifficulty >= 0.8 && timeDifficulty > 0.6) {
-      verdict = DifficultySpikes.JUMP;
-    }
-
-    if (distanceDifficulty >= 0.6 && timeDifficulty > 0.7) {
-      verdict = DifficultySpikes.HARD_JUMP;
-    }
-
-    if (distanceDifficulty >= 0.5 && timeDifficulty > 0.85) {
-      verdict = DifficultySpikes.INSANE_JUMP;
-    }
-
-    // Stream Category
-    if (distanceDifficulty < 0.5 && timeDifficulty > 0.96) {
-      verdict = DifficultySpikes.INSANE_STREAM;
-    }
-
-    if (distanceDifficulty < 0.3 && timeDifficulty > 0.95) {
-      verdict = DifficultySpikes.HARD_STREAM;
-    }
-
-    if (distanceDifficulty < 0.2 && timeDifficulty > 0.95) {
-      verdict = DifficultySpikes.EASY_STREAM;
-    }
-
-    if (distanceDifficulty < 0.1 && timeDifficulty > 0.95) {
-      verdict = DifficultySpikes.EASY_STREAM;
-    }
-
+    const verdict = getDifficultyVerdict(distanceDifficulty, timeDifficulty);
     if (verdict) {
       difficultyPoints[verdict] += difficultyMaxes[verdict];
     }
   }
   const starRating = Math.max(...Object.values(difficultyPoints));
 
-  return easeOutQuint(starRating / FUCKED_UP_DIFFICULTY) * 11;
+  return (
+    Math.round(easeOutQuint(starRating / FUCKED_UP_DIFFICULTY) * 11 * 100) / 100
+  );
+}
+
+export function getDifficultyVerdict(
+  distanceDifficulty: number,
+  timeDifficulty: number
+) {
+  let verdict: DifficultySpikes | undefined;
+
+  // Jump Category
+  if (distanceDifficulty >= 0.8 && timeDifficulty > 0.3) {
+    verdict = DifficultySpikes.EASY_JUMP;
+  }
+
+  if (distanceDifficulty >= 0.8 && timeDifficulty > 0.6) {
+    verdict = DifficultySpikes.JUMP;
+  }
+
+  if (distanceDifficulty >= 0.6 && timeDifficulty > 0.7) {
+    verdict = DifficultySpikes.HARD_JUMP;
+  }
+
+  if (distanceDifficulty >= 0.5 && timeDifficulty > 0.85) {
+    verdict = DifficultySpikes.INSANE_JUMP;
+  }
+
+  // Stream Category
+  if (distanceDifficulty < 0.5 && timeDifficulty > 0.96) {
+    verdict = DifficultySpikes.INSANE_STREAM;
+  }
+
+  if (distanceDifficulty < 0.3 && timeDifficulty > 0.95) {
+    verdict = DifficultySpikes.HARD_STREAM;
+  }
+
+  if (distanceDifficulty < 0.2 && timeDifficulty > 0.95) {
+    verdict = DifficultySpikes.EASY_STREAM;
+  }
+
+  if (distanceDifficulty < 0.1 && timeDifficulty > 0.95) {
+    verdict = DifficultySpikes.EASY_STREAM;
+  }
+
+  return verdict;
 }
