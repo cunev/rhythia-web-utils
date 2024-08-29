@@ -24,8 +24,8 @@ export async function rateMap(map: SSPMParsedMap) {
     beatmap1.hitObjects.push(hittable);
   }
   const ruleset = new StandardRuleset();
-
+  const mods = ruleset.createModCombination("RX");
   const difficultyCalculator = ruleset.createDifficultyCalculator(beatmap1);
-  const difficultyAttributes = difficultyCalculator.calculate();
+  const difficultyAttributes = difficultyCalculator.calculateWithMods(mods);
   return difficultyAttributes.starRating;
 }
