@@ -1,11 +1,10 @@
-import { BeatmapDecoder, BeatmapEncoder } from "osu-parsers";
+import { BeatmapDecoder } from "osu-parsers";
 import { StandardRuleset } from "osu-standard-stable";
 import { sampleMap } from "./osuUtils";
 import { SSPMParsedMap } from "./sspmParser";
 
 export async function rateMap(map: SSPMParsedMap) {
   const decoder = new BeatmapDecoder();
-  const encoder = new BeatmapEncoder();
   const beatmap1 = decoder.decodeFromString(sampleMap);
 
   const notes = map.markers
