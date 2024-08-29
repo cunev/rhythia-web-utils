@@ -13,8 +13,8 @@ async function main() {
     const parsedData = await parser.parse();
     parsedData.markers.sort((a, b) => a.position - b.position);
 
-    let rating = rateMap(parsedData);
-    console.log(parsedData.strings.mapName, rating);
+    let rating = await rateMap(parsedData);
+    console.log(file, rating);
   }
 }
 
