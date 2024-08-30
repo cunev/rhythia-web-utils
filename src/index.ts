@@ -3,6 +3,19 @@ import { StandardRuleset } from "osu-standard-stable";
 import { sampleMap } from "./osuUtils";
 import { SSPMParsedMap } from "./sspmParser";
 
+function easeInExpoDeq(x: number) {
+  return x === 0 ? 0 : Math.pow(2, 23.025850929940457 * x - 23.025850929940457);
+}
+
+export function calculatePerformancePoints(
+  starRating: number,
+  accuracy: number
+) {
+  return Math.round(
+    Math.pow((starRating * easeInExpoDeq(accuracy) * 100) / 2, 2) / 180
+  );
+}
+
 export async function rateMap(map: SSPMParsedMap) {
   const decoder = new BeatmapDecoder();
   const beatmap1 = decoder.decodeFromString(sampleMap);

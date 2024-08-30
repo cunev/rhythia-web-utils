@@ -14,7 +14,7 @@ async function main() {
     parsedData.markers.sort((a, b) => a.position - b.position);
 
     let rating = await rateMap(parsedData);
-    console.log(file, rating);
+    console.log(file, `STAR RATING: ${rating}`);
   }
 }
 
