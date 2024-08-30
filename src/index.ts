@@ -4,7 +4,7 @@ import { sampleMap } from "./osuUtils";
 import { SSPMParsedMap } from "./sspmParser";
 
 function easeInExpoDeq(x: number) {
-  return x === 0 ? 0 : Math.pow(2, 23.025850929940457 * x - 23.025850929940457);
+  return x === 0 ? 0 : Math.pow(2, 50 * x - 50);
 }
 
 export function calculatePerformancePoints(
@@ -12,7 +12,7 @@ export function calculatePerformancePoints(
   accuracy: number
 ) {
   return Math.round(
-    Math.pow((starRating * easeInExpoDeq(accuracy) * 100) / 2, 2) / 180
+    Math.pow((starRating * easeInExpoDeq(accuracy) * 100) / 2, 2) / 1000
   );
 }
 

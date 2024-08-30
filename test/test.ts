@@ -1,6 +1,6 @@
 import { readdirSync, readFileSync } from "fs";
 import path from "path";
-import { rateMap } from "../src";
+import { calculatePerformancePoints, rateMap } from "../src";
 import { SSPMParser } from "../src/sspmParser";
 
 async function main() {
@@ -14,7 +14,14 @@ async function main() {
     parsedData.markers.sort((a, b) => a.position - b.position);
 
     let rating = await rateMap(parsedData);
-    console.log(file, `STAR RATING: ${rating}`);
+    console.log(
+      file,
+      Math.round(rating * 100) / 100,
+      calculatePerformancePoints(rating, 1),
+      calculatePerformancePoints(rating, 0.99),
+      calculatePerformancePoints(rating, 0.98),
+      calculatePerformancePoints(rating, 0.97)
+    );
   }
 }
 
