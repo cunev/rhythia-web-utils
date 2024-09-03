@@ -18,9 +18,7 @@ async function main() {
       file,
       Math.round(rating * 100) / 100,
       calculatePerformancePoints(rating, 1),
-      calculatePerformancePoints(rating, 0.99),
-      calculatePerformancePoints(rating, 0.98),
-      calculatePerformancePoints(rating, 0.97)
+      calculatePerformancePoints(rating, 0.99496)
     );
   }
 }

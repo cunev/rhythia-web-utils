@@ -4,7 +4,7 @@ import { sampleMap } from "./osuUtils";
 import { SSPMParsedMap } from "./sspmParser";
 
 function easeInExpoDeq(x: number) {
-  return x === 0 ? 0 : Math.pow(2, 50 * x - 50);
+  return x === 0 ? 0 : Math.pow(2, 35 * x - 35);
 }
 
 export function calculatePerformancePoints(
