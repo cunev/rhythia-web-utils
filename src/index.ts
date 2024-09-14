@@ -16,7 +16,7 @@ export function calculatePerformancePoints(
   );
 }
 
-export async function rateMap(map: SSPMParsedMap) {
+export function rateMap(map: SSPMParsedMap) {
   const decoder = new BeatmapDecoder();
   const beatmap1 = decoder.decodeFromString(sampleMap);
 

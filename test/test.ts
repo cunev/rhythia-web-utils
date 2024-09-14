@@ -10,10 +10,11 @@ async function main() {
     const filePath = path.join("./test/testing-maps", file);
     const parser = new SSPMParser(readFileSync(filePath));
 
-    const parsedData = await parser.parse();
+    const parsedData = parser.parse();
     parsedData.markers.sort((a, b) => a.position - b.position);
 
-    let rating = await rateMap(parsedData);
+    console.log(parsedData);
+    let rating = rateMap(parsedData);
     console.log(
       file,
       Math.round(rating * 100) / 100,

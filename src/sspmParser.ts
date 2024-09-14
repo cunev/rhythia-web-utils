@@ -1,7 +1,3 @@
-import * as fs from "fs";
-import { promisify } from "util";
-const readFile = promisify(fs.readFile);
-
 type DataTypeID =
   | 0x00
   | 0x01
@@ -220,7 +216,7 @@ export class SSPMParser {
     return dataObject;
   }
 
-  async parse(): Promise<{
+  parse(): {
     header: Header;
     metadata: StaticMetadata;
     pointers: Pointers;
@@ -230,7 +226,7 @@ export class SSPMParser {
     cover?: Buffer;
     markerDefinitions: MarkerDefinition[];
     markers: Marker[];
-  }> {
+  } {
     // Header
     const header: Header = {
       signature: this.readBytes(4),
